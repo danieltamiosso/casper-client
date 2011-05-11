@@ -18,3 +18,11 @@ pdf = Casper::Client.build do |report|
   report.xpath = # xpath query string
 end
 ```
+
+```
+pdf = Casper::Client.build :host => 'http://mycasperserver.com' do |report|
+  report.xml = # xml dataset
+  report.template = # jrxml template
+  report.xpath = # xpath query string
+end
+```

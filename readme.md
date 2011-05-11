@@ -6,7 +6,7 @@ With this client you can send a jrxml template, a xml document and a xpath strin
 # Install
 
 ```
-gem install casper_client
+gem install casper-client
 ```
 
 # Usage Examples

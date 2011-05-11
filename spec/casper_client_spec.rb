@@ -19,7 +19,7 @@ describe Casper::Client do
           'casper[xpath]'=>'//root'
         }
       )
-      @report = Casper::Client.build do |report|
+      report = Casper::Client.build do |report|
         report.xml = DATASET
         report.template = TEMPLATE
         report.xpath = '//root'
@@ -34,7 +34,7 @@ describe Casper::Client do
           'casper[xpath]'=> '//root'
         }
       )
-      @report = Casper::Client.build :host => 'http://mycasperserver.com' do |report|
+      report = Casper::Client.build :host => 'http://mycasperserver.com' do |report|
         report.xml = DATASET
         report.template = TEMPLATE
         report.xpath = '//root'

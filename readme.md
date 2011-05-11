@@ -11,6 +11,7 @@ gem install casper-client
 
 # Usage Examples
 
+Using the default service
 ```
 pdf = Casper::Client.build do |report|
   report.xml = # xml dataset
@@ -19,6 +20,7 @@ pdf = Casper::Client.build do |report|
 end
 ```
 
+Using another host
 ```
 pdf = Casper::Client.build :host => 'http://mycasperserver.com' do |report|
   report.xml = # xml dataset

@@ -10,7 +10,12 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/danieltamiosso/casper-client"
   s.summary     = %q{just a simple api for casper service}
   s.description = %q{just a simple api for casper service (a web server framework for JasperReports)}
-
+  
+  s.required_rubygems_version = ">= 1.3.6"
+  s.add_development_dependency "rspec", ">= 2.5.0"
+  s.add_dependency "rest-client", ">= 0"  
+  s.add_dependency "bundler", ">= 0"
+  
   s.rubyforge_project = "casper-client"
 
   s.files         = `git ls-files`.split("\n")

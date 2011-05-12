@@ -1,1 +1,1 @@
-require File.join(File.dirname(__FILE__), '..','lib','casper_client')
+require File.join(File.dirname(__FILE__), '..','lib','casper-client')

@@ -6,15 +6,23 @@ module Casper
 
   class Client
 
-    attr_reader :options
+    DEFAULT_HOST = 'http://casper.jrs-labs.com:8080'
         
     def self.build(options={}, &block)
-      options = {:host => 'http://casper.jrs-labs.com:8080'}.merge!(options)
+      options = {:host => DEFAULT_HOST}.merge!(options)
       report = Report.new
       report.instance_eval(&block)
       RestClient.post options[:host], report.to_json, :content_type => :json, :accept => :json
     end
-  
+    
+    def self.report options={}
+      Client.build options do |report| 
+        report.template = options[:template]
+        report.xml = options[:xml]
+        report.xpath = options[:xpath]
+      end
+    end
+
   end
   
   class Report

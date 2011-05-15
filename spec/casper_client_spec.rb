@@ -62,6 +62,24 @@ describe Casper::Client do
         report.xpath = '//root'
       end
     end
+    
+    it 'should build the correct request to a report without a block as param' do
+      RestClient.should_receive(:post).with(
+        'http://casper.jrs-labs.com:8080',
+        {:casper =>
+              {
+                :jrxml => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/report.jrxml')).read),
+                :data => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/dataset.xml')).read),
+                :xpath => '//root'
+              }
+        }.to_json, :content_type => :json, :accept => :json
+      )
+      report = Casper::Client.report(
+        :template => open(File.join(File.dirname(__FILE__),'data/report.jrxml')),
+        :xml => open(File.join(File.dirname(__FILE__),'data/dataset.xml')),
+        :xpath => '//root'
+      )  
+    end
 
   end
 

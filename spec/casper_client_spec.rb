@@ -19,11 +19,11 @@ describe Casper::Client do
               }
         }.to_json, :content_type => :json, :accept => :json
       )
-      report = Casper::Client.build do |report|
-        report.template = open(File.join(File.dirname(__FILE__),'data/report.jrxml'))
-        report.xml = open(File.join(File.dirname(__FILE__),'data/dataset.xml'))
-        report.xpath = '//root'
-      end
+      report = Casper::Client.report(
+        :template => open(File.join(File.dirname(__FILE__),'data/report.jrxml')),
+        :xml => open(File.join(File.dirname(__FILE__),'data/dataset.xml')),
+        :xpath => '//root'
+      )
     end
 
     it 'should build the correct request to a report with a xml file as datasource with a optional host' do
@@ -37,14 +37,14 @@ describe Casper::Client do
               }
         }.to_json, :content_type => :json, :accept => :json
       )
-      report = Casper::Client.build :host => 'http://myserver' do |report|
-        report.template = open(File.join(File.dirname(__FILE__),'data/report.jrxml'))
-        report.xml = open(File.join(File.dirname(__FILE__),'data/dataset.xml'))        
-        report.xpath = '//root'
-      end
+      report = Casper::Client.report(
+        :template => open(File.join(File.dirname(__FILE__),'data/report.jrxml')),
+        :xml => open(File.join(File.dirname(__FILE__),'data/dataset.xml')),
+        :xpath => '//root',
+        :host => 'http://myserver'
+      )
     end
     
- 
     it 'should build the correct request to a report with a xml string as datasource' do
       RestClient.should_receive(:post).with(
         'http://mycasperserver.com',
@@ -56,31 +56,35 @@ describe Casper::Client do
               }
         }.to_json, :content_type => :json, :accept => :json
       )
-      report = Casper::Client.build :host => 'http://mycasperserver.com' do |report|
-        report.template = open(File.join(File.dirname(__FILE__),'data/report.jrxml'))
-        report.xml = '<model/>'
-        report.xpath = '//root'
-      end
+      report = Casper::Client.report(
+        :template => open(File.join(File.dirname(__FILE__),'data/report.jrxml')),
+        :xml => '<model/>',
+        :xpath => '//root',
+        :host => 'http://mycasperserver.com'
+      )
     end
     
-    it 'should build the correct request to a report without a block as param' do
+    
+    it 'should be possible to configure the client directly from a single point' do
+      Casper::Client.options[:host] = 'http://host.config.com'
       RestClient.should_receive(:post).with(
-        'http://casper.jrs-labs.com:8080',
+        'http://host.config.com',
         {:casper =>
               {
                 :jrxml => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/report.jrxml')).read),
-                :data => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/dataset.xml')).read),
+                :data => Base64.encode64('<model/>'),
                 :xpath => '//root'
               }
         }.to_json, :content_type => :json, :accept => :json
       )
       report = Casper::Client.report(
         :template => open(File.join(File.dirname(__FILE__),'data/report.jrxml')),
-        :xml => open(File.join(File.dirname(__FILE__),'data/dataset.xml')),
-        :xpath => '//root'
-      )  
+        :xml => '<model/>',
+        :xpath => '//root',
+        :host => 'http://host.config.com'
+      )
     end
-
+    
   end
 
 end

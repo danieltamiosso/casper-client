@@ -3,17 +3,12 @@ require 'json'
 require 'base64'
 
 module Casper
-
+  
   class Client
-
-    DEFAULT_HOST = 'http://casper.jrs-labs.com:8080'
-        
-    def self.build(options={}, &block)
-      options = {:host => DEFAULT_HOST}.merge!(options)
-      report = Report.new
-      report.instance_eval(&block)
-      RestClient.post options[:host], report.to_json, :content_type => :json, :accept => :json
-    end
+    
+    @@options = {
+      :host => 'http://casper.jrs-labs.com:8080'
+    }
     
     def self.report options={}
       Client.build options do |report| 
@@ -21,6 +16,19 @@ module Casper
         report.xml = options[:xml]
         report.xpath = options[:xpath]
       end
+    end
+    
+    def self.options options={}
+      @@options.merge!(options)
+    end  
+    
+    private
+    
+    def self.build(options={}, &block)
+      options = @@options.merge!(options)
+      report = Report.new
+      report.instance_eval(&block)
+      RestClient.post options[:host], report.to_json, :content_type => :json, :accept => :json
     end
 
   end

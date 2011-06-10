@@ -15,7 +15,8 @@ describe Casper::Client do
               {
                 :jrxml => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/report.jrxml')).read),
                 :data => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/dataset.xml')).read),
-                :xpath => '//root'
+                :xpath => '//root',
+                :type => 'pdf'
               }
         }.to_json, :content_type => :json, :accept => :json
       )
@@ -33,7 +34,8 @@ describe Casper::Client do
               {
                 :jrxml => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/report.jrxml')).read),
                 :data => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/dataset.xml')).read),
-                :xpath => '//root'
+                :xpath => '//root',
+                :type => 'pdf'
               }
         }.to_json, :content_type => :json, :accept => :json
       )
@@ -52,7 +54,8 @@ describe Casper::Client do
               {
                 :jrxml => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/report.jrxml')).read),
                 :data => Base64.encode64('<model/>'),
-                :xpath => '//root'
+                :xpath => '//root',
+                :type => 'pdf'
               }
         }.to_json, :content_type => :json, :accept => :json
       )
@@ -73,7 +76,8 @@ describe Casper::Client do
               {
                 :jrxml => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/report.jrxml')).read),
                 :data => Base64.encode64('<model/>'),
-                :xpath => '//root'
+                :xpath => '//root',
+                :type => 'pdf'
               }
         }.to_json, :content_type => :json, :accept => :json
       )
@@ -82,6 +86,46 @@ describe Casper::Client do
         :xml => '<model/>',
         :xpath => '//root',
         :host => 'http://host.config.com'
+      )
+    end
+    
+    it 'should be possible export as xls format' do
+      Casper::Client.options[:host] = 'http://host.config.com'
+      RestClient.should_receive(:post).with(
+        'http://host.config.com',
+        {:casper =>
+              {
+                :jrxml => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/report.jrxml')).read),
+                :data => Base64.encode64('<model/>'),
+                :xpath => '//root',
+                :type => 'xls'
+              }
+        }.to_json, :content_type => :json, :accept => :json
+      )
+      report = Casper::Client.xls(
+        :template => open(File.join(File.dirname(__FILE__),'data/report.jrxml')),
+        :xml => '<model/>',
+        :xpath => '//root'
+      )
+    end
+    
+    it 'should be possible export as pdf format by alias method' do
+      Casper::Client.options[:host] = 'http://host.config.com'
+      RestClient.should_receive(:post).with(
+        'http://host.config.com',
+        {:casper =>
+              {
+                :jrxml => Base64.encode64(open(File.join(File.dirname(__FILE__),'data/report.jrxml')).read),
+                :data => Base64.encode64('<model/>'),
+                :xpath => '//root',
+                :type => 'pdf'
+              }
+        }.to_json, :content_type => :json, :accept => :json
+      )
+      report = Casper::Client.pdf(
+        :template => open(File.join(File.dirname(__FILE__),'data/report.jrxml')),
+        :xml => '<model/>',
+        :xpath => '//root'
       )
     end
     

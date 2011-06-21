@@ -11,22 +11,45 @@ gem install casper-client
 
 # Usage Examples
 
-Using the default service:
+Default streaming is pdf:
 
 ```
-pdf = Casper::Client.build do |report|
-  report.xml = # xml dataset
-  report.template = # jrxml template
-  report.xpath = # xpath query string
-end
+report = Casper::Client.report(
+  :template => # xml dataset,
+  :xml => # jrxml template,
+  :xpath => # xpath query string
+)
 ```
 
-Using another host:
+Or you can specify the streaming type
+```
+xls = Casper::Client.xls(
+  :template => # xml dataset,
+  :xml => # jrxml template,
+  :xpath => # xpath query string
+)
+
+pdf = Casper::Client.pdf(
+  :template => # xml dataset,
+  :xml => # jrxml template,
+  :xpath => # xpath query string
+)
 
 ```
-pdf = Casper::Client.build :host => 'http://mycasperserver.com' do |report|
-  report.xml = # xml dataset
-  report.template = # jrxml template
-  report.xpath = # xpath query string
-end
+
+To change the default web service to bind your reports, you can do:
+
+```
+Casper::Client.options[:host] = 'http://host.config.com'
+```
+
+Or you can inform by request:
+
+```
+report = Casper::Client.report(
+  :template => # xml dataset,
+  :xml => # jrxml template,
+  :xpath => # xpath query string,
+  :host => # host
+)
 ```

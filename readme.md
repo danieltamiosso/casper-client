@@ -22,6 +22,7 @@ report = Casper::Client.report(
 ```
 
 Or you can specify the streaming type
+
 ```
 xls = Casper::Client.xls(
   :template => # xml dataset,

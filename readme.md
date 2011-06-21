@@ -34,7 +34,6 @@ pdf = Casper::Client.pdf(
   :xml => # jrxml template,
   :xpath => # xpath query string
 )
-
 ```
 
 To change the default web service to bind your reports, you can do:
